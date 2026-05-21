@@ -3,6 +3,7 @@ package corpus
 import (
 	"embed"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"strings"
 )
@@ -36,6 +37,7 @@ func ListPlatforms() ([]Platform, error) {
 			continue
 		}
 		platforms := make([]Platform, 0, len(entries))
+		var errs []error
 		for _, e := range entries {
 			if e.IsDir() || !strings.HasSuffix(e.Name(), ".json") {
 				continue
@@ -43,11 +45,12 @@ func ListPlatforms() ([]Platform, error) {
 			name := strings.TrimSuffix(e.Name(), ".json")
 			p, err := LoadPlatform(name)
 			if err != nil {
+				errs = append(errs, fmt.Errorf("%s: %w", name, err))
 				continue
 			}
 			platforms = append(platforms, p)
 		}
-		return platforms, nil
+		return platforms, errors.Join(errs...)
 	}
 	return nil, fmt.Errorf("no platform directory found in embedded FS")
 }

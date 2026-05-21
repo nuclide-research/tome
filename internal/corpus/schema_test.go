@@ -104,8 +104,8 @@ func TestListPlatforms(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ListPlatforms: %v", err)
 	}
-	if len(platforms) == 0 {
-		t.Error("expected at least one platform")
+	if len(platforms) != 1 {
+		t.Errorf("expected 1 platform, got %d", len(platforms))
 	}
 	found := false
 	for _, p := range platforms {
