@@ -53,6 +53,9 @@ func TestPlatformUnmarshal(t *testing.T) {
 	if p.ShodanDorks.Strict != "product:Weaviate port:8080" {
 		t.Errorf("shodan_dorks.strict = %q", p.ShodanDorks.Strict)
 	}
+	if len(p.Fingerprint.ActiveProbe.ResponseMarkers) != 2 {
+		t.Errorf("response_markers len = %d, want 2", len(p.Fingerprint.ActiveProbe.ResponseMarkers))
+	}
 }
 
 func TestCredUnmarshal(t *testing.T) {
@@ -61,7 +64,7 @@ func TestCredUnmarshal(t *testing.T) {
 	if err := json.Unmarshal([]byte(raw), &c); err != nil {
 		t.Fatalf("unmarshal: %v", err)
 	}
-	if c.User != "admin" || c.Pass != "changeme" {
+	if c.User != "admin" || c.Pass != "changeme" || c.Context != "basic auth" {
 		t.Errorf("got %+v", c)
 	}
 }
