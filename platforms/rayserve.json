@@ -20,10 +20,10 @@
       "port:8265"
     ],
     "active_probe": {
-      "path": "/api/v0/status",
+      "path": "/api/serve/applications/",
       "method": "GET",
-      "response_markers": ["\"applicationStatus\"", "\"clusterStatus\""],
-      "false_positive_check": "response must be Ray dashboard JSON with applicationStatus and clusterStatus fields"
+      "response_markers": ["\"deploy_mode\"", "\"http_options\""],
+      "false_positive_check": "response must be Ray Serve ServeInstanceDetails JSON with deploy_mode and http_options fields — documented public API"
     }
   },
   "shodan_dorks": {
