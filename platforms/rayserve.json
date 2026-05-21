@@ -1,0 +1,48 @@
+{
+  "platform": "rayserve",
+  "display_name": "Ray Serve",
+  "category": "inference_serving",
+  "default_ports": [8265, 8000],
+  "api_paths": ["/dashboard", "/api/v0/status"],
+  "auth_default": "none",
+  "auth_config_env": [],
+  "default_creds": [],
+  "install_tell": "ray start --head && serve run deployment.py",
+  "misconfig_patterns": [
+    "Ray dashboard on port 8265 accessible without authentication",
+    "Dashboard exposes full cluster topology including all worker IPs",
+    "No built-in auth on serving endpoints"
+  ],
+  "fingerprint": {
+    "passive": [
+      "port:8265 http.title:\"Ray Dashboard\"",
+      "http.html:\"Ray Dashboard\"",
+      "port:8265"
+    ],
+    "active_probe": {
+      "path": "/api/serve/applications/",
+      "method": "GET",
+      "response_markers": ["\"deploy_mode\"", "\"http_options\""],
+      "false_positive_check": "response must be Ray Serve ServeInstanceDetails JSON with deploy_mode and http_options fields — documented public API"
+    }
+  },
+  "shodan_dorks": {
+    "basic": "port:8265 \"ray\"",
+    "strict": "port:8265 http.title:\"Ray Dashboard\"",
+    "version": "port:8265 http.title:\"Ray Dashboard\" http.html:\"version\""
+  },
+  "deployment_tells": [
+    "Dashboard at :8265 with no auth — primary signal",
+    "RayService CRD present in Kubernetes",
+    "Ray cluster head node log lines in banners"
+  ],
+  "pivot_paths": [
+    "GET /api/v0/status → full cluster topology → list all worker node IPs",
+    "Worker IPs → expand scan scope to full cluster",
+    "Serving deployment names → infer models and application structure"
+  ],
+  "vulnerabilities": [],
+  "sources": [
+    "Generative AI on Kubernetes (9781098171919) ch01"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "platform": "test-fixture",
+  "display_name": "Test Fixture",
+  "category": "test",
+  "default_ports": [9999],
+  "api_paths": ["/test"],
+  "auth_default": "none",
+  "auth_config_env": [],
+  "default_creds": [],
+  "install_tell": "test only",
+  "misconfig_patterns": [],
+  "fingerprint": {
+    "passive": ["port:9999"],
+    "active_probe": {
+      "path": "/test",
+      "method": "GET",
+      "response_markers": ["\"ok\""],
+      "false_positive_check": ""
+    }
+  },
+  "shodan_dorks": {
+    "basic": "port:9999",
+    "strict": "port:9999",
+    "version": "port:9999"
+  },
+  "deployment_tells": [],
+  "pivot_paths": [],
+  "vulnerabilities": [],
+  "sources": []
+}
