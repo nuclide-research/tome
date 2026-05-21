@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/Nicholas-Kloster/tome/internal/corpus"
@@ -111,6 +112,9 @@ func fetchShodanHost(ip string) (fingerprint.ShodanHost, error) {
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return fingerprint.ShodanHost{}, err
+	}
+	if resp.StatusCode != http.StatusOK {
+		return fingerprint.ShodanHost{}, fmt.Errorf("Shodan API %d: %s", resp.StatusCode, strings.TrimSpace(string(body)))
 	}
 	var host fingerprint.ShodanHost
 	return host, json.Unmarshal(body, &host)

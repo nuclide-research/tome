@@ -110,6 +110,23 @@ func TestMatchFilterHTMLContent(t *testing.T) {
 	}
 }
 
+func TestMatchFilterCompound(t *testing.T) {
+	host := ShodanHost{
+		Ports: []int{8000},
+		Data:  []ShodanData{{HTTP: ShodanHTTP{HTML: "vllm metrics endpoint"}}},
+	}
+	if !matchFilter(`port:8000 http.html:"vllm"`, host) {
+		t.Error("compound filter should match when all terms match")
+	}
+	hostNoPort := ShodanHost{
+		Ports: []int{9999},
+		Data:  []ShodanData{{HTTP: ShodanHTTP{HTML: "vllm metrics endpoint"}}},
+	}
+	if matchFilter(`port:8000 http.html:"vllm"`, hostNoPort) {
+		t.Error("compound filter should not match when port term fails")
+	}
+}
+
 func TestProbeActiveSuccess(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")

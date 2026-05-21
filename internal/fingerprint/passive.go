@@ -47,8 +47,17 @@ func MatchPassive(p corpus.Platform, host ShodanHost) float64 {
 
 // matchFilter parses a Shodan filter string and checks it against the host data.
 // Supported fields: product, http.html, http.title, http.headers, port.
+// Compound filters (space-separated terms) are AND: all terms must match.
 // Values are matched case-insensitively; quotes around values are stripped.
 func matchFilter(filter string, host ShodanHost) bool {
+	if strings.ContainsRune(filter, ' ') {
+		for _, part := range strings.Fields(filter) {
+			if !matchFilter(part, host) {
+				return false
+			}
+		}
+		return true
+	}
 	field, value, ok := strings.Cut(filter, ":")
 	if !ok {
 		return hostContains(host, strings.ToLower(filter))
