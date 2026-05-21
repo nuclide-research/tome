@@ -57,6 +57,12 @@ func TestFormatListTable(t *testing.T) {
 	if !strings.Contains(out, "vector_db") {
 		t.Error("list table missing category")
 	}
+	if !strings.Contains(out, "none") {
+		t.Error("list table missing auth column")
+	}
+	if !strings.Contains(out, "8080") {
+		t.Error("list table missing ports column")
+	}
 }
 
 func TestFormatDorks(t *testing.T) {
@@ -68,5 +74,8 @@ func TestFormatDorks(t *testing.T) {
 	}
 	if got := FormatDorks(testPlatform, "version"); got != "product:Weaviate http.html:\"v1/meta\"" {
 		t.Errorf("FormatDorks version = %q", got)
+	}
+	if got := FormatDorks(testPlatform, ""); got != "product:Weaviate port:8080" {
+		t.Errorf("FormatDorks default = %q, want strict dork", got)
 	}
 }

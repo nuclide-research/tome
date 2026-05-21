@@ -117,7 +117,7 @@ func listTable(platforms []corpus.Platform) string {
 		for i, port := range p.DefaultPorts {
 			ports[i] = fmt.Sprintf("%d", port)
 		}
-		sb.WriteString(fmt.Sprintf("%-20s %-18s %-10s %s\n",
+		sb.WriteString(fmt.Sprintf("%-20.20s %-18.18s %-10.10s %s\n",
 			p.Platform, p.Category, p.AuthDefault, strings.Join(ports, ", ")))
 	}
 	return sb.String()
@@ -149,6 +149,9 @@ func profileCSV(p corpus.Platform) string {
 	_ = w.Write([]string{"auth_default", p.AuthDefault})
 	_ = w.Write([]string{"shodan_strict", p.ShodanDorks.Strict})
 	w.Flush()
+	if w.Error() != nil {
+		return ""
+	}
 	return sb.String()
 }
 
@@ -167,5 +170,8 @@ func listCSV(platforms []corpus.Platform) string {
 		})
 	}
 	w.Flush()
+	if w.Error() != nil {
+		return ""
+	}
 	return sb.String()
 }
