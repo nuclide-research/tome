@@ -20,10 +20,10 @@
       "port:8265"
     ],
     "active_probe": {
-      "path": "/dashboard",
+      "path": "/api/v0/status",
       "method": "GET",
-      "response_markers": ["Ray", "Dashboard"],
-      "false_positive_check": "response HTML must contain Ray Dashboard title"
+      "response_markers": ["\"applicationStatus\"", "\"clusterStatus\""],
+      "false_positive_check": "response must be Ray dashboard JSON with applicationStatus and clusterStatus fields"
     }
   },
   "shodan_dorks": {
