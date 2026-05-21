@@ -15,8 +15,9 @@
   ],
   "fingerprint": {
     "passive": [
-      "http.headers:\"Server: llama.cpp\"",
-      "http.html:\"gguf\""
+      "product:llama.cpp",
+      "http.html:\"gguf\"",
+      "port:8080 http.html:\"llama.cpp\""
     ],
     "active_probe": {
       "path": "/v1/models",
@@ -27,8 +28,8 @@
   },
   "shodan_dorks": {
     "basic": "\"llama.cpp\"",
-    "strict": "http.headers:\"Server: llama.cpp\"",
-    "version": "http.headers:\"Server: llama.cpp\" http.html:\"gguf\""
+    "strict": "product:llama.cpp",
+    "version": "product:llama.cpp http.html:\"gguf\""
   },
   "deployment_tells": [
     "Server: llama.cpp response header uniquely identifies native binary (port 8080 default)",

@@ -15,7 +15,7 @@
   ],
   "fingerprint": {
     "passive": [
-      "http.headers:\"Server: uvicorn\"",
+      "http.html:\"vllm\"",
       "port:8000 http.html:\"vllm\"",
       "http.html:\"gpu_cache_usage_perc\""
     ],
@@ -28,7 +28,7 @@
   },
   "shodan_dorks": {
     "basic": "\"vllm\" port:8000",
-    "strict": "port:8000 http.headers:\"Server: uvicorn\" http.html:\"vllm\"",
+    "strict": "port:8000 http.html:\"vllm\"",
     "version": "port:8000 http.html:\"vllm\" http.html:\"version\""
   },
   "deployment_tells": [
