@@ -22,7 +22,7 @@
     "active_probe": {
       "path": "/v1/models",
       "method": "GET",
-      "response_markers": ["\"nvcr.io\"", "\"nvidia\""],
+      "response_markers": ["\"nvcr.io\""],
       "false_positive_check": "model id field must follow NVIDIA NIM format e.g. meta/llama3-8b-instruct; nvcr.io may appear in image references in response"
     }
   },

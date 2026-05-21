@@ -21,8 +21,8 @@
     "active_probe": {
       "path": "/v1/models",
       "method": "GET",
-      "response_markers": ["\"name\"", "\"ready\""],
-      "false_positive_check": "response must include KServe-style model readiness fields"
+      "response_markers": ["\"kserve\""],
+      "false_positive_check": "response or error body must reference kserve — KFServing V2 error format includes kserve in server identification"
     }
   },
   "shodan_dorks": {

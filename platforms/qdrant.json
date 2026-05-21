@@ -28,8 +28,8 @@
     "active_probe": {
       "path": "/health",
       "method": "GET",
-      "response_markers": ["\"qdrant\""],
-      "false_positive_check": "response title field must contain 'qdrant - vector search engine'"
+      "response_markers": ["\"qdrant - vector search engine\""],
+      "false_positive_check": "response title field must equal 'qdrant - vector search engine'"
     }
   },
   "shodan_dorks": {

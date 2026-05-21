@@ -2,7 +2,7 @@
   "platform": "rayserve",
   "display_name": "Ray Serve",
   "category": "inference_serving",
-  "default_ports": [8000, 8265],
+  "default_ports": [8265, 8000],
   "api_paths": ["/dashboard", "/api/v0/status"],
   "auth_default": "none",
   "auth_config_env": [],

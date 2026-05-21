@@ -21,8 +21,8 @@
     "active_probe": {
       "path": "/v1/health",
       "method": "GET",
-      "response_markers": ["\"code\"", "\"data\""],
-      "false_positive_check": "response code must be 200 with Milvus health structure; 10-15% FP rate — retry probe 3x"
+      "response_markers": ["\"nodeInfos\""],
+      "false_positive_check": "response data.nodeInfos field is Milvus-specific — present in healthy cluster health response"
     }
   },
   "shodan_dorks": {

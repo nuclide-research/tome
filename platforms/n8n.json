@@ -11,19 +11,14 @@
     "N8N_BASIC_AUTH_PASSWORD",
     "N8N_ENCRYPTION_KEY"
   ],
-  "default_creds": [
-    {
-      "user": "admin",
-      "pass": "changeme",
-      "context": "basic auth when N8N_BASIC_AUTH_ACTIVE=true with default password"
-    }
-  ],
+  "default_creds": [],
   "install_tell": "docker run -p 5678:5678 n8nio/n8n",
   "misconfig_patterns": [
     "N8N_BASIC_AUTH_ACTIVE not set — auth disabled entirely",
     "Credentials stored in workflow JSON in plaintext",
     "Webhook endpoints reachable without authentication",
-    "N8N_ENCRYPTION_KEY left at default or in Docker logs"
+    "N8N_ENCRYPTION_KEY left at default or in Docker logs",
+    "Default password 'changeme' when N8N_BASIC_AUTH_ACTIVE=true — not rotated on first deploy"
   ],
   "fingerprint": {
     "passive": [
