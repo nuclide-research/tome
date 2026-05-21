@@ -10,7 +10,7 @@
   "install_tell": "docker run -p 8000:8000 nvcr.io/nim/meta/llama3-8b-instruct:latest",
   "misconfig_patterns": [
     "OpenAI-compat container exposes without auth by default",
-    "NGC_API_KEY present in container environment",
+    "NGC_API_KEY present in container environment — grants NVIDIA cloud registry access",
     "PersistentVolume model cache world-readable in Kubernetes"
   ],
   "fingerprint": {
@@ -22,8 +22,8 @@
     "active_probe": {
       "path": "/v1/models",
       "method": "GET",
-      "response_markers": ["\"object\"", "\"data\""],
-      "false_positive_check": "model IDs should follow NVIDIA NIM naming convention e.g. meta/llama3"
+      "response_markers": ["\"nvcr.io\"", "\"nvidia\""],
+      "false_positive_check": "model id field must follow NVIDIA NIM format e.g. meta/llama3-8b-instruct; nvcr.io may appear in image references in response"
     }
   },
   "shodan_dorks": {
@@ -38,7 +38,7 @@
   ],
   "pivot_paths": [
     "GET /v1/models → NIM model ID → identify NVIDIA catalog offering and version",
-    "NGC_API_KEY exposure → NVIDIA cloud registry pivot",
+    "NGC_API_KEY exposure → NVIDIA cloud registry pivot → private model access",
     "nvcr.io image tag → identify exact model family and optimization profile"
   ],
   "vulnerabilities": [],

@@ -4,7 +4,7 @@
   "category": "orchestration",
   "default_ports": [5678],
   "api_paths": ["/api/v1", "/", "/webhook", "/rest/admin/diagnostics"],
-  "auth_default": "basic",
+  "auth_default": "none",
   "auth_config_env": [
     "N8N_BASIC_AUTH_ACTIVE",
     "N8N_BASIC_AUTH_USER",

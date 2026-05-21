@@ -2,12 +2,12 @@
   "platform": "vllm",
   "display_name": "vLLM",
   "category": "inference_serving",
-  "default_ports": [8080],
+  "default_ports": [8000],
   "api_paths": ["/v1/completions", "/v1/chat/completions", "/v1/models", "/metrics"],
   "auth_default": "none",
   "auth_config_env": ["HF_TOKEN", "HUGGING_FACE_HUB_TOKEN"],
   "default_creds": [],
-  "install_tell": "docker run -p 8080:8080 vllm/vllm-openai:latest --model mistralai/Mistral-7B-v0.1",
+  "install_tell": "docker run -p 8000:8000 vllm/vllm-openai:latest --model mistralai/Mistral-7B-v0.1",
   "misconfig_patterns": [
     "Binding to 0.0.0.0 without auth proxy",
     "/metrics exposes GPU memory utilization and model stats",
@@ -16,24 +16,24 @@
   "fingerprint": {
     "passive": [
       "http.headers:\"Server: uvicorn\"",
-      "port:8080 http.html:\"vllm\"",
-      "http.html:\"model_runner\""
+      "port:8000 http.html:\"vllm\"",
+      "http.html:\"gpu_cache_usage_perc\""
     ],
     "active_probe": {
-      "path": "/v1/models",
+      "path": "/metrics",
       "method": "GET",
-      "response_markers": ["\"object\"", "\"data\""],
-      "false_positive_check": "response.object must equal list and data must be array"
+      "response_markers": ["vllm:num_requests_running"],
+      "false_positive_check": "response must be Prometheus text format containing vllm: prefixed metric names"
     }
   },
   "shodan_dorks": {
-    "basic": "\"vllm\" port:8080",
-    "strict": "port:8080 http.headers:\"uvicorn\" http.html:\"vllm\"",
-    "version": "port:8080 http.html:\"vllm\" http.html:\"version\""
+    "basic": "\"vllm\" port:8000",
+    "strict": "port:8000 http.headers:\"Server: uvicorn\" http.html:\"vllm\"",
+    "version": "port:8000 http.html:\"vllm\" http.html:\"version\""
   },
   "deployment_tells": [
     "Server: uvicorn response header",
-    "/metrics endpoint exposes GPU stats",
+    "/metrics endpoint exposes GPU stats with vllm: prefixed Prometheus labels",
     "Loading model weights log line at startup"
   ],
   "pivot_paths": [

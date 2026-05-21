@@ -10,12 +10,12 @@
     "/dashboard",
     "/openapi.json"
   ],
-  "auth_default": "api_key",
+  "auth_default": "none",
   "auth_config_env": ["QDRANT_API_KEY", "QDRANT_READ_ONLY_API_KEY"],
   "default_creds": [],
   "install_tell": "docker run -p 6333:6333 -p 6334:6334 qdrant/qdrant",
   "misconfig_patterns": [
-    "API key exposed in Docker stdout logs",
+    "API key not configured in default deployment — REST API fully open",
     "/dashboard web UI accessible without credentials even when REST API key is configured",
     "Read-write and read-only API keys not distinguished"
   ],
@@ -28,8 +28,8 @@
     "active_probe": {
       "path": "/health",
       "method": "GET",
-      "response_markers": ["\"status\"", "\"result\""],
-      "false_positive_check": "response must include Qdrant-specific status structure; probe /dashboard for UI confirmation"
+      "response_markers": ["\"qdrant\""],
+      "false_positive_check": "response title field must contain 'qdrant - vector search engine'"
     }
   },
   "shodan_dorks": {
@@ -38,12 +38,12 @@
     "version": "port:6333 http.html:\"qdrant\" http.html:\"version\""
   },
   "deployment_tells": [
-    "/health returns unauthenticated even with API key configured on REST",
+    "/health returns {\"title\": \"qdrant - vector search engine\", \"version\": \"X.Y.Z\"} unauthenticated",
     "/dashboard web UI open in browser at :6333/dashboard",
     "/openapi.json exposes full Qdrant API schema"
   ],
   "pivot_paths": [
-    "GET /collections → collection list even with API key on REST (dashboard bypass)",
+    "GET /collections → collection list without auth in default deployment",
     "GET /dashboard → full collection browser, vector count, payload fields",
     "GET /openapi.json → enumerate all endpoints including collection management"
   ],
