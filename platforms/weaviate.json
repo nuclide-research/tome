@@ -26,6 +26,8 @@
   "fingerprint": {
     "passive": [
       "product:Weaviate",
+      "http.html:\"weaviate.io\"",
+      "http.html:\"/v1/meta\"",
       "http.html:\"/v1/graphql\"",
       "http.headers:\"weaviate\""
     ],

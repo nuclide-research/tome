@@ -17,7 +17,7 @@
     "passive": [
       "port:8000 http.html:\"nvidia\"",
       "http.html:\"nvcr.io\"",
-      "port:8000 http.html:\"nim\""
+      "http.html:\"nvidia-nim\""
     ],
     "active_probe": {
       "path": "/v1/models",

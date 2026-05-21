@@ -22,6 +22,7 @@
   ],
   "fingerprint": {
     "passive": [
+      "product:n8n",
       "http.title:\"n8n\"",
       "port:5678",
       "port:5678 http.html:\"n8n\""
