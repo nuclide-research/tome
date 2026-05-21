@@ -11,6 +11,7 @@ import (
 var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all known platforms in the corpus",
+	Args:  cobra.NoArgs,
 	RunE:  runList,
 }
 
