@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/Nicholas-Kloster/tome/internal/corpus"
 	"github.com/Nicholas-Kloster/tome/internal/fingerprint"
@@ -35,7 +36,9 @@ func runScan(cmd *cobra.Command, args []string) error {
 		fmt.Fprintln(os.Stderr, "\nWARNING: Active mode sends traffic to the target and may be detected.")
 		fmt.Fprintln(os.Stderr, "Only use with explicit written authorization from the target owner.")
 		fmt.Fprint(os.Stderr, "Press Enter to continue or Ctrl+C to abort: ")
-		bufio.NewReader(os.Stdin).ReadString('\n')
+		if _, err := bufio.NewReader(os.Stdin).ReadString('\n'); err != nil {
+			return fmt.Errorf("active mode requires interactive confirmation; stdin is not a terminal")
+		}
 	}
 
 	platforms, err := corpus.ListPlatforms()
@@ -99,7 +102,8 @@ func fetchShodanHost(ip string) (fingerprint.ShodanHost, error) {
 	if key == "" {
 		return fingerprint.ShodanHost{}, fmt.Errorf("SHODAN_API_KEY not set")
 	}
-	resp, err := http.Get(fmt.Sprintf("https://api.shodan.io/shodan/host/%s?key=%s", ip, key))
+	client := &http.Client{Timeout: 10 * time.Second}
+	resp, err := client.Get(fmt.Sprintf("https://api.shodan.io/shodan/host/%s?key=%s", ip, key))
 	if err != nil {
 		return fingerprint.ShodanHost{}, err
 	}
