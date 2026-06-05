@@ -2,7 +2,10 @@
   "platform": "weaviate",
   "display_name": "Weaviate",
   "category": "vector_db",
-  "default_ports": [8080, 50051],
+  "default_ports": [
+    8080,
+    50051
+  ],
   "api_paths": [
     "/v1/meta",
     "/v1/schema",
@@ -34,7 +37,11 @@
     "active_probe": {
       "path": "/v1/meta",
       "method": "GET",
-      "response_markers": ["\"version\"", "\"modules\"", "\"hostname\""],
+      "response_markers": [
+        "\"version\"",
+        "\"modules\"",
+        "\"hostname\""
+      ],
       "false_positive_check": "response must include modules field as array — uniquely identifies Weaviate"
     }
   },
@@ -54,9 +61,13 @@
     "GET /v1/objects → raw record dump with no auth",
     "cert CN pivot → identify operator org → check job postings"
   ],
-  "vulnerabilities": [],
+  "vulnerabilities": [
+    "CVE-2025-67818: ZipSlip — requires write access",
+    "CVE-2025-67819: path traversal — requires write access"
+  ],
   "sources": [
     "Learning LangChain (9781098167271) ch02",
-    "AI-Native LLM Security (9781836203759) ch04"
+    "AI-Native LLM Security (9781836203759) ch04",
+    "[CONFIRMED — NuClide Cat-02 survey 2026-06-05; live population observed]"
   ]
 }

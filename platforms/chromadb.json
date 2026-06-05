@@ -2,10 +2,18 @@
   "platform": "chromadb",
   "display_name": "ChromaDB",
   "category": "vector_db",
-  "default_ports": [8000],
-  "api_paths": ["/api/v1", "/api/v1/collections", "/api/v1/query"],
+  "default_ports": [
+    8000
+  ],
+  "api_paths": [
+    "/api/v1",
+    "/api/v1/collections",
+    "/api/v1/query"
+  ],
   "auth_default": "none",
-  "auth_config_env": ["CHROMA_SERVER_AUTH_CREDENTIALS_FILE"],
+  "auth_config_env": [
+    "CHROMA_SERVER_AUTH_CREDENTIALS_FILE"
+  ],
   "default_creds": [],
   "install_tell": "docker run -p 8000:8000 ghcr.io/chroma-core/chroma:latest",
   "misconfig_patterns": [
@@ -22,7 +30,9 @@
     "active_probe": {
       "path": "/api/v1",
       "method": "GET",
-      "response_markers": ["nanosecond heartbeat"],
+      "response_markers": [
+        "nanosecond heartbeat"
+      ],
       "false_positive_check": "response must include nanosecond heartbeat field — uniquely identifies ChromaDB"
     }
   },
@@ -41,9 +51,12 @@
     "GET /api/v1/collections/<name>/count → record count immediately",
     "Collection metadata → infer data type (medical, financial, personal) and organization"
   ],
-  "vulnerabilities": [],
+  "vulnerabilities": [
+    "CVE-2026-45829 (ChromaToast, CVSS 10.0, UNPATCHED): pre-auth code injection via POST /api/v2/tenants/{t}/databases/{d}/collections with HuggingFace model ref trust_remote_code=true; arbitrary Python exec before any auth check; Python FastAPI server only (Rust server NOT affected); GHSA-f4j7-r4q5-qw2c; ITW confirmed (HiddenLayer 2026-05-18)"
+  ],
   "sources": [
     "Learning LangChain (9781098167271) ch02",
-    "Agentic AI for Offensive Cybersecurity (9781806114474) ch04"
+    "Agentic AI for Offensive Cybersecurity (9781806114474) ch04",
+    "[CONFIRMED — NuClide Cat-02 survey 2026-06-05; live population observed]"
   ]
 }

@@ -1,0 +1,59 @@
+{
+  "platform": "vearch",
+  "display_name": "Vearch (JD.com)",
+  "category": "vector_db",
+  "default_ports": [
+    8817,
+    9001
+  ],
+  "api_paths": [
+    "/dbs",
+    "/dbs/{db}/spaces/{space}",
+    "/dbs/{db}/spaces/{space}/search"
+  ],
+  "auth_default": "none",
+  "auth_config_env": [],
+  "default_creds": [],
+  "install_tell": "docker run -p 8817:8817 -p 9001:9001 vearch/vearch:latest all",
+  "misconfig_patterns": [
+    "skip_auth=true in default config — /dbs and all data endpoints fully open",
+    "GET /dbs returns success + all database names without credentials",
+    "JD.com origin — common in CN cloud deployments (Aliyun, Huawei Cloud)"
+  ],
+  "fingerprint": {
+    "passive": [
+      "port:8817 \"vearch\"",
+      "port:8817"
+    ],
+    "active_probe": {
+      "path": "/dbs",
+      "method": "GET",
+      "response_markers": [
+        "\"code\":0",
+        "\"msg\":\"success\"",
+        "\"data\""
+      ],
+      "false_positive_check": "response must include code:0, msg:success, and data array — unique to Vearch API format"
+    }
+  },
+  "shodan_dorks": {
+    "basic": "port:8817 \"vearch\"",
+    "strict": "port:8817 \"vearch\"",
+    "version": "port:8817 \"vearch\""
+  },
+  "deployment_tells": [
+    "GET /dbs returns {code:0, msg:success, data:[...]} without auth",
+    "Port 8817 is Vearch-specific",
+    "Chinese operator pattern: Aliyun/Huawei/Tencent ASNs"
+  ],
+  "pivot_paths": [
+    "GET /dbs → all database names without auth",
+    "GET /dbs/{db}/spaces/{space} → space schema + vector field config",
+    "POST /dbs/{db}/spaces/{space}/search → vector search without auth"
+  ],
+  "vulnerabilities": [],
+  "sources": [
+    "https://vearch.readthedocs.io",
+    "[CONFIRMED — NuClide Cat-02 survey 2026-06-05; live population observed]"
+  ]
+}

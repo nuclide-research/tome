@@ -2,11 +2,24 @@
   "platform": "milvus",
   "display_name": "Milvus",
   "category": "vector_db",
-  "default_ports": [19530],
-  "api_paths": ["/v1/health", "/v1/vector/collections"],
+  "default_ports": [
+    19530
+  ],
+  "api_paths": [
+    "/v1/health",
+    "/v1/vector/collections"
+  ],
   "auth_default": "none",
-  "auth_config_env": ["MILVUS_SECURITY_AUTHORIZATIONENABLED"],
-  "default_creds": [],
+  "auth_config_env": [
+    "MILVUS_SECURITY_AUTHORIZATIONENABLED"
+  ],
+  "default_creds": [
+    {
+      "user": "root",
+      "pass": "Milvus",
+      "context": "default root credential when common.security.authorizationEnabled=true; registry-confirmed (vendor-port-registry default_auth: OFF (root/Milvus))"
+    }
+  ],
   "install_tell": "docker run -p 19530:19530 milvusdb/milvus:latest standalone",
   "misconfig_patterns": [
     "No authentication in single-node deployment",
@@ -21,7 +34,9 @@
     "active_probe": {
       "path": "/v1/health",
       "method": "GET",
-      "response_markers": ["\"nodeInfos\""],
+      "response_markers": [
+        "\"nodeInfos\""
+      ],
       "false_positive_check": "response data.nodeInfos field is Milvus-specific — present in healthy cluster health response"
     }
   },
@@ -40,8 +55,12 @@
     "Error response bodies reveal exact Milvus version string",
     "Attu UI at :8000 → full vector database browser without credentials"
   ],
-  "vulnerabilities": [],
+  "vulnerabilities": [
+    "CVE-2026-26190 (CVSS 9.8): port 9091 zero-auth REST API; /expr evals arbitrary expressions with default by-dev etcd token; GET :9091/api/v1/credential/users enumerates users even when 19530 auth ON; fixed 2.5.27/2.6.10; GHSA-7ppg-37fh-vcr6",
+    "CVE-2025-64513 (CVSS 9.3): forge sourceId header @@milvus-member@@ (base64: QEBtaWx2dXMtbWVtYmVyQEA=) to gain admin"
+  ],
   "sources": [
-    "Learning LangChain (9781098167271) ch02"
+    "Learning LangChain (9781098167271) ch02",
+    "[CONFIRMED — NuClide Cat-02 survey 2026-06-05; live population observed]"
   ]
 }
