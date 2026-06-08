@@ -2,8 +2,14 @@
   "platform": "rayserve",
   "display_name": "Ray Serve",
   "category": "inference_serving",
-  "default_ports": [8265, 8000],
-  "api_paths": ["/dashboard", "/api/v0/status"],
+  "default_ports": [
+    8265,
+    8000
+  ],
+  "api_paths": [
+    "/dashboard",
+    "/api/v0/status"
+  ],
   "auth_default": "none",
   "auth_config_env": [],
   "default_creds": [],
@@ -11,7 +17,8 @@
   "misconfig_patterns": [
     "Ray dashboard on port 8265 accessible without authentication",
     "Dashboard exposes full cluster topology including all worker IPs",
-    "No built-in auth on serving endpoints"
+    "No built-in auth on serving endpoints",
+    "5-signal ShadowRay 2.0 attacker-fleet IoC: 10-job cap, _aaN submission ID suffix, 1/3-1/3-1/3 RUNNING/FAILED/SUCCEEDED status mix, same-minute submission prefix across hosts, multi-port-per-IP fanout"
   ],
   "fingerprint": {
     "passive": [
@@ -20,10 +27,14 @@
       "port:8265"
     ],
     "active_probe": {
-      "path": "/api/serve/applications/",
+      "path": "/api/jobs/",
       "method": "GET",
-      "response_markers": ["\"deploy_mode\"", "\"http_options\""],
-      "false_positive_check": "response must be Ray Serve ServeInstanceDetails JSON with deploy_mode and http_options fields — documented public API"
+      "response_markers": [
+        "[{",
+        "submission_id",
+        "status"
+      ],
+      "false_positive_check": "/api/jobs/ returns JSON array (NOT /api/cluster_status \u2014 that endpoint is auth-gated on current Ray versions and gives a confident-zero false-negative). See ShadowRay 2.0 IoC pattern in NuClide 2026-06-08 case study."
     }
   },
   "shodan_dorks": {
@@ -32,17 +43,18 @@
     "version": "port:8265 http.title:\"Ray Dashboard\" http.html:\"version\""
   },
   "deployment_tells": [
-    "Dashboard at :8265 with no auth — primary signal",
+    "Dashboard at :8265 with no auth \u2014 primary signal",
     "RayService CRD present in Kubernetes",
     "Ray cluster head node log lines in banners"
   ],
   "pivot_paths": [
-    "GET /api/v0/status → full cluster topology → list all worker node IPs",
-    "Worker IPs → expand scan scope to full cluster",
-    "Serving deployment names → infer models and application structure"
+    "GET /api/v0/status \u2192 full cluster topology \u2192 list all worker node IPs",
+    "Worker IPs \u2192 expand scan scope to full cluster",
+    "Serving deployment names \u2192 infer models and application structure"
   ],
   "vulnerabilities": [],
   "sources": [
-    "Generative AI on Kubernetes (9781098171919) ch01"
+    "Generative AI on Kubernetes (9781098171919) ch01",
+    "case-studies/commercial/ray-dashboard-shadowray-survey-2026-06-08.md (1,798/2k unauth Jobs API; 463 likely-ShadowRay-2.0 IPs)"
   ]
 }
