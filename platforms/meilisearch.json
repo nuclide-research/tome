@@ -20,7 +20,7 @@
   "default_creds": [],
   "install_tell": "docker run -p 7700:7700 getmeili/meilisearch:latest",
   "misconfig_patterns": [
-    "No master key in development mode — all indexes publicly readable and writable",
+    "No master key in development mode \u2014 all indexes publicly readable and writable",
     "GET /stats exposes document counts for every index without auth",
     "/indexes/{uid}/documents dumps all records without auth when no key set"
   ],
@@ -49,13 +49,14 @@
     "GET /stats returns per-index numberOfDocuments without auth in dev mode"
   ],
   "pivot_paths": [
-    "GET /stats → every index name + numberOfDocuments without auth",
-    "GET /indexes/{uid}/documents?limit=5 → sample documents without auth",
-    "GET /indexes → all index configs including searchable attributes"
+    "GET /stats \u2192 every index name + numberOfDocuments without auth",
+    "GET /indexes/{uid}/documents?limit=5 \u2192 sample documents without auth",
+    "GET /indexes \u2192 all index configs including searchable attributes"
   ],
   "vulnerabilities": [],
   "sources": [
     "https://www.meilisearch.com/docs/learn/security/master-api-keys",
-    "[CONFIRMED — NuClide Cat-02 survey 2026-06-05; live population observed]"
+    "[CONFIRMED \u2014 NuClide Cat-02 survey 2026-06-05; live population observed]",
+    "case-studies/commercial/meilisearch-population-survey-2026-06-08.md (282 unauth, 780 GB exposed, HK spam botnet)"
   ]
 }
