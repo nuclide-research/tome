@@ -18,7 +18,7 @@
   "default_creds": [],
   "install_tell": "docker run -p 8882:8882 marqoai/marqo:latest",
   "misconfig_patterns": [
-    "No API key in default deployment — all indexes publicly enumerable",
+    "No API key in default deployment \u2014 all indexes publicly enumerable",
     "Index stats expose document count and storage size without auth"
   ],
   "fingerprint": {
@@ -32,7 +32,7 @@
       "response_markers": [
         "\"Welcome to Marqo\""
       ],
-      "false_positive_check": "response body must contain Welcome to Marqo — uniquely identifies Marqo"
+      "false_positive_check": "response body must contain Welcome to Marqo \u2014 uniquely identifies Marqo"
     }
   },
   "shodan_dorks": {
@@ -46,13 +46,14 @@
     "GET /indexes lists all indexes without auth"
   ],
   "pivot_paths": [
-    "GET /indexes → index names without auth",
-    "GET /indexes/{index}/stats → numberOfDocuments without auth",
-    "GET /indexes/{index}/search → vector search without auth"
+    "GET /indexes \u2192 index names without auth",
+    "GET /indexes/{index}/stats \u2192 numberOfDocuments without auth",
+    "GET /indexes/{index}/search \u2192 vector search without auth"
   ],
   "vulnerabilities": [],
   "sources": [
     "https://docs.marqo.ai",
-    "[CONFIRMED — NuClide Cat-02 survey 2026-06-05; live population observed]"
+    "[CONFIRMED \u2014 NuClide Cat-02 survey 2026-06-05; live population observed]",
+    "case-studies/commercial/marqo-survey-2026-06-08-mini.md (4 unauth on small pop of 18)"
   ]
 }
