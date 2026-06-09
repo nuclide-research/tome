@@ -11,10 +11,11 @@
     4671
   ],
   "api_paths": [
-    "/v1/job/list",
-    "/v1/job/query",
-    "/v1/table/info",
-    "/v1/data",
+    "/v1/version/get (POST, returns {data:{API,FATE},retcode:0,retmsg:success})",
+    "/v1/job/list/job (POST, returns {data:{count,jobs[]},retcode:0,retmsg:success}) -- VERIFIED unauth on FATE 1.11.2",
+    "/v1/job/query (POST, returns {data:[],retcode:0,retmsg:'no job could be found'})",
+    "/v1/server/versions/get (POST)",
+    "/v1/data/table/list_all_table (POST, 404 on 1.11.2)",
     "/v1/component",
     "/login"
   ],
@@ -30,7 +31,7 @@
   "install_tell": "KubeFATE: helm install kubefate -f cluster.yaml",
   "misconfig_patterns": [
     "FATEBoard ships admin/admin by default (confirmed application.properties + FATE issue #2942)",
-    "FATEFlow auth OFF by default — authentication.client.switch=false, authentication.site.switch=false in service_conf.yaml",
+    "FATEFlow auth OFF by default — authentication.client.switch=false, authentication.site.switch=false in service_conf.yaml. CONFIRMED operating in production deployment 150.129.138.81 (FATE 1.11.2, 25-job topology returned unauth via /v1/job/list/job on 2026-06-09).",
     "HMAC-SHA1 site auth is opt-in (Certification doc 1.9.1), not on by default",
     "RollSite / OSX trust = party_id claim in header. No cryptographic binding unless mTLS toggled on. Same model 1.x -> 2.x.",
     "Eggroll clustermanager/nodemanager (4670/4671) — no auth, assumes private subnet (often violated)",
@@ -80,6 +81,6 @@
     "https://github.com/FederatedAI/KubeFATE",
     "FATE issue #2942 (FATEBoard default cred confirmation)",
     "data/platform-intel/cat53-fate-osint-2026-06-09.md",
-    "[CANDIDATE - NuClide 2026-06-09, pre-population-verification]"
+    "[CONFIRMED - NuClide 2026-06-09 Cat-53 survey: 4 CN deployments full-stack exposed, 1 with inner-B/outer-1 FATEFlow API verification on FATE 1.11.2]"
   ]
 }
